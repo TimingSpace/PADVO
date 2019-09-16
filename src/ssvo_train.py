@@ -22,6 +22,7 @@ torch.manual_seed(100) # random seed generate random number
 def main():
 
     args = parse()
+    print(args)
     dataloader,dataloader_vis,dataloader_vid,model,vis,lr_scheduler,optimizer = initialization(args)
     ################## training   #######################
     for epoch in range(100):
@@ -30,7 +31,7 @@ def main():
         result = np.array(result)
         model.train()
         for i_batch, sample_batched in enumerate(dataloader):
-            batch_loss,result = pad_update(model,sample_batched,flag.with_attention_flag=with_attention_flag,pad_flag=flag.pad_flag)
+            batch_loss,result = pad_update(model,sample_batched,with_attention_flag=args.with_attention_flag,pad_flag=args.pad_flag)
             epoch_loss += batch_loss
             vis.plot_current_errors(epoch,i_batch*input_batch_size
                     /len(kitti_dataset),batch_loss.data)
@@ -98,7 +99,7 @@ def initialization(args):
         model     = nn.DataParallel(model.cuda())
         #model     = model.cuda()
         print(model)
-    if args.inetune_flag:
+    if args.finetune_flag:
         model.load_state_dict(torch.load(args.model_load))
 
     optimizer = optim.Adam(model.parameters(), lr=0.01)
@@ -116,7 +117,7 @@ def initialization(args):
                 transforms.ColorJitter(brightness=0.1, contrast=0.1, saturation=0.1, hue=0.1),
                 transforms.ToTensor(),
                 transforms.Normalize((0.5,0.5,0.5), (0.5,0.5,0.5)) ]
-    kitti_dataset = data.data_loader.SepeDataset(path_to_poses_files=motion_files_path,path_to_image_lists=path_files_path,transform_=transforms_,camera_parameter = camera_parameter,coor_layer_flag = coor_layer_flag)
+    kitti_dataset = data.data_loader.SepeDataset(path_to_poses_files=motion_files_path,path_to_image_lists=path_files_path,transform_=transforms_,camera_parameter = camera_parameter,coor_layer_flag = args.coor_layer_flag)
 
     dataloader = DataLoader(kitti_dataset, batch_size=input_batch_size,shuffle=True ,num_workers=4,drop_last=True)
     dataloader_vis = DataLoader(kitti_dataset, batch_size=input_batch_size,shuffle=False ,num_workers=4,drop_last=True)
@@ -130,7 +131,7 @@ def initialization(args):
                 transforms.Resize(image_size),
                 transforms.ToTensor(),
                 transforms.Normalize((0.5,0.5,0.5), (0.5,0.5,0.5)) ]
-    kitti_dataset_test = data.data_loader.SepeDataset(path_to_poses_files=motion_files_path_test,path_to_image_lists=path_files_path_test,transform_=transforms_,camera_parameter = camera_parameter,norm_flag=1,coor_layer_flag = coor_layer_flag)
+    kitti_dataset_test = data.data_loader.SepeDataset(path_to_poses_files=motion_files_path_test,path_to_image_lists=path_files_path_test,transform_=transforms_,camera_parameter = camera_parameter,norm_flag=1,coor_layer_flag = args.coor_layer_flag)
     dataloader_vid = DataLoader(kitti_dataset_test, batch_size=input_batch_size,shuffle=False ,num_workers=4,drop_last=True)
     print(len(kitti_dataset),len(kitti_dataset_test))
     vis = visualizer.Visualizer(args.visdom_ip,args.visdom_port)
@@ -183,7 +184,7 @@ def pad_update(model,sample_batched,with_attention_flag=False,use_gpu_flag=True,
                 predict_f_12, input_batch_motions_f_12, \
                 predict_b_21,input_batch_motions_b_21)
 
-    else
+    else:
         batch_loss = loss.loss_functions.GroupLoss(\
                 predict_f_12, input_batch_motions_f_12, \
                 predict_b_21,input_batch_motions_b_21)
