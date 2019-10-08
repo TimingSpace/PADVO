@@ -1,3 +1,11 @@
+/*
+* Copyright (c) 2019 Carnegie Mellon University, Author <xiangwew@andrew.cmu.edu> <basti@andrew.cmu.edu>
+*
+* Not licensed for commercial use. For research and evaluation only.
+*
+*/
+
+# modify from other codes
 import random
 import time
 import datetime

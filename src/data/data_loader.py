@@ -1,3 +1,10 @@
+/*
+* Copyright (c) 2019 Carnegie Mellon University, Author <xiangwew@andrew.cmu.edu> <basti@andrew.cmu.edu>
+*
+* Not licensed for commercial use. For research and evaluation only.
+*
+*/
+
 from __future__ import print_function, division
 import os
 import sys
