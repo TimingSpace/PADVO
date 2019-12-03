@@ -6,6 +6,8 @@ class Visualizer():
     def __init__(self,ip_address='http://127.0.0.1',port='8097'):
         self.para = 1
         self.vis = visdom.Visdom(server=ip_address,port=port)
+        self.ip = ip_address
+        self.port = port
 
     def plot_current_errors(self, epoch, counter_ratio, errors):
         if not hasattr(self, 'plot_data'):
@@ -320,6 +322,9 @@ class Visualizer():
         opts = {}
 
         self.vis._send({'data': data, 'win': win, 'eid': env, 'layout': layout, 'opts': opts})
+    def __str__(self):
+        return 'visualizer: ip ' + self.ip +'  port:' +self.port +'\n'
+
 
 
 

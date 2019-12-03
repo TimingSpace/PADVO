@@ -1,0 +1,42 @@
+# pytorch_cuda
+FROM nvidia/cuda:8.0-devel-ubuntu16.04
+MAINTAINER xiangwei <wangxiangwei.cpp@gmail.com>
+
+RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
+RUN apt-get install -y build-essential
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    vim \
+    zsh \
+    git \
+    cmake \
+    libgtk2.0-dev \
+    python3-tk \
+    wget \
+    htop \
+    tmux \
+    libopencv-dev \
+    libeigen3-dev \
+    libsuitesparse-dev
+
+RUN pip3 install --upgrade pip==9.0.3 && \
+    pip3 install http://download.pytorch.org/whl/cu80/torch-0.4.1-cp35-cp35m-linux_x86_64.whl\
+    torchvision \
+    visdom \
+    dominate \
+    scikit-learn \
+    pandas \
+    scipy \
+    ipython \
+    tqdm \
+    catkin-tools \
+    Pillow \
+    gym \
+    opencv-python \
+    matplotlib \
+    pyrr \
+    scikit-image
+
+RUN git clone https://github.com/RainerKuemmerle/g2o.git
+RUN cd g2o && mkdir build && cd build && cmake .. && make -j 4 && make install

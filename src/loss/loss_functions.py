@@ -1,9 +1,9 @@
-/*
+'''
 * Copyright (c) 2019 Carnegie Mellon University, Author <xiangwew@andrew.cmu.edu> <basti@andrew.cmu.edu>
 *
 * Not licensed for commercial use. For research and evaluation only.
 *
-*/
+'''
 
 from torch import nn
 from torch.autograd import Variable
@@ -50,7 +50,8 @@ def PatchLoss(predict_result,ground_truth):
     return loss
 
 def SingleShotLoss(predict_result,ground_truth):
-    diff = ground_truth-predict_result
+    ground_truth = ground_truth.view(ground_truth.size(0),6,1,1)
+    diff = ground_truth-predict_result[0]
     diff_s = diff.pow(2)
     loss = diff_s
     loss = loss/(loss.size()[0]*loss.size()[2]*loss.size()[3])
