@@ -1,6 +1,5 @@
 ## PAD-VO: Patch Agreement Deep Visual Odometry
 
-
 ### Motivation:
 1. visual odoemtry calculation does not rely on the whole image. A featureful sub-region (patch) is enough for estimating an ego-motion.
 2. The images patches have more similarity over scene.
@@ -16,7 +15,9 @@
 ### Paper
 1. Coming soon
 
-
+### To Run This Code:
+1. Build the docker
+2. Run this code within the docker container (still updating)
 
 ### Interesting discovery
 [![IMAGE ALT TEXT](http://img.youtube.com/vi/KLh6D69Ubag/0.jpg)](http://www.youtube.com/watch?v=KLh6D69Ubag "What has PAD-VO learned")
