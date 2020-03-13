@@ -16,8 +16,20 @@
 1. Coming soon
 
 ### To Run This Code:
-1. Build the docker
-2. Run this code within the docker container (still updating)
-
+#### Requirement
+1. only if you can build this docker image had have at least 8G GPU
+2. install all the requirement as mentioned in the dockerfile.
+```
+cd dockerfile
+docker build -t xxx/pytorch .
+```
+#### Run
+1. run the docker container
+2. create the dataset folder for your dataset like kitti folder there;
+3. modify script train.sh about for some option, for the meaning for options refer to src/option.py
+4. run the code in the docker container
+```
+sh script/train.sh
+```
 ### Interesting discovery
 [![IMAGE ALT TEXT](http://img.youtube.com/vi/KLh6D69Ubag/0.jpg)](http://www.youtube.com/watch?v=KLh6D69Ubag "What has PAD-VO learned")
